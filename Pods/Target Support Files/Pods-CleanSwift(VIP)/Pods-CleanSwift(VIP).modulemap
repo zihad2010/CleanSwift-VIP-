@@ -1,0 +1,6 @@
+framework module Pods_CleanSwift_VIP_ {
+  umbrella header "Pods-CleanSwift(VIP)-umbrella.h"
+
+  export *
+  module * { export * }
+}
