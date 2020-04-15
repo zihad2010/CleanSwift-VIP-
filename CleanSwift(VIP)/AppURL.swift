@@ -3,7 +3,7 @@
 import UIKit
 
 struct Domain {
-    static let dev = "http://vccuat.us-east-2.elasticbeanstalk.com"
+    static let dev = ""
     static let assest = "http://image.tmdb.org/t/p/w185/"
 
 }
