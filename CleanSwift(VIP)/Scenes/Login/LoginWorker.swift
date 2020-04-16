@@ -12,53 +12,67 @@
 
 import UIKit
 
+protocol LoginWarkerDelegate {
+    func loaderWillShow(flag: Bool)
+    func presentError(error:Error)
+    func loginResponse(response:Login.Response.SignIn)
+}
+
 class LoginWorker: NSObject {
     
     
-    func loginWith(request:Login.Request , completion: @escaping(Error?) -> ()) {
+    var loginWarkerDelegate: LoginWarkerDelegate?
+    
+    func loginWith(request:Login.Request) {
         
         let parameter =  ["emailID": request.userID! as String,"password":request.password as Any,"online":"true"] as [String : Any]
-        
+        loginWarkerDelegate?.loaderWillShow(flag: true)
         NetworkClient.shared.sendRequest(methodType: .post, url: Domain.baseUrl() + APIEndpoint.API_USER_SIGNIN, parameter: parameter as [NSString : Any]) { (result) in
             
-            let indecator = Loader.sharedInstance
-            indecator.hideIndicator()
+            self.loginWarkerDelegate?.loaderWillShow(flag: false)
+            print(result)
             
             switch result{
-                
-            case .success(let data,let code):
-                print("pppp:",code,data)
-                switch code {
-                case 200...299:
+            case .networkFinishedWithData(let data, let status):
+                switch status {
+                case HTTPStatusCodes.OK:
                     JSONDecoder.decodeData(model: Login.Response.SignIn.self, data) { (result) in
                         switch result{
                         case .success(let data):
-                            print("pppparse:",data)
+                            self.loginWarkerDelegate?.loginResponse(response: data as! Login.Response.SignIn)
                             break
-                        case .failure(_):
+                        case .failure(let mess):
+                            print("Parse data error:",mess)
                             break
                         }
                     }
                     break
-                case 400:
+                case HTTPStatusCodes.BadRequest:
                     JSONDecoder.decodeData(model: Login.Response.SignInData.self, data) { (result) in
                         switch result{
-                        case .success(let data):
-                            print(data)
+                        case .success(_):
                             break
-                        case .failure(_):
+                        case .failure(let mess):
+                            print("Parse data error:",mess)
                             break
                         }
                     }
-                    break
-                case 424:
                     break
                 default:
                     break
                 }
                 break
-            case .failure(let code,let str):
-                print("fffff:",code,str)
+            case .networkFinishedWithError(let error):
+                switch error {
+                case NetworkError.invalidURL:
+                    self.loginWarkerDelegate?.presentError(error: error)
+                    break
+                case NetworkError.offline:
+                    self.loginWarkerDelegate?.presentError(error: error)
+                    break
+                default:
+                    break
+                }
                 break
             }
         }

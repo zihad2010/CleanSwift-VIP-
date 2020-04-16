@@ -15,12 +15,11 @@ import UIKit
 protocol LoginDisplayLogicDelegate: class {
     func loginStatus(viewModel: Login.ViewModel)
     func loaderShowOrHidden(flag:Bool)
-    
+    func alertShowWith(errorViewModel:ErrorViewModel)
 }
 
 
-class LoginViewController: UIViewController, LoginDisplayLogicDelegate {
-    
+class LoginViewController: UIViewController, LoginDisplayLogicDelegate,ErrorPresenter {
     
     let indecator = Loader.sharedInstance
     var interactorDelegate: LoginBusinessLogicDelegate?
@@ -74,8 +73,6 @@ class LoginViewController: UIViewController, LoginDisplayLogicDelegate {
         
     }
     
-    // MARK:- LogIn
-    
     // MARK: LogonInfo
     
     @IBOutlet weak var userNameTextField: UITextField!
@@ -106,11 +103,19 @@ class LoginViewController: UIViewController, LoginDisplayLogicDelegate {
     // MARK: - Loader protocal implementation
     
     func loaderShowOrHidden(flag: Bool) {
+        
         switch flag {
         case true:
             indecator.showIndicator()
         default:
             indecator.hideIndicator()
+        }
+    }
+    // MARK: - present error
+    
+    func alertShowWith(errorViewModel: ErrorViewModel) {
+        DispatchQueue.main.async {
+            self.presentError(viewModel: errorViewModel)
         }
     }
     

@@ -25,9 +25,11 @@ enum Login {
      // MARK: Login Response
     
     struct Response {
-        
-        var success : Bool
-        
+       
+        struct LoginStatus {
+             var success : Bool
+        }
+       
         struct SignIn: Codable {
             let access_token: String
             let token_type: String

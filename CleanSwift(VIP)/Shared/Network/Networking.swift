@@ -9,17 +9,21 @@
 import Foundation
 import UIKit
 
-enum Result<data,responseCode, errorStr> {
-    case success(data,responseCode)
-    case failure(responseCode,errorStr)
+enum Result<data,error> {
+    case networkFinishedWithData(data,error)
+    case networkFinishedWithError(error)
 }
 
-typealias Handler = (Result<Data,Int,String>) -> Void
+typealias Handler = (Result<Data,Error>) -> Void
 
 enum NetworkError: Error{
     case nullData
     case data
+    case offline
+    case invalidURL
+    case undefined
 }
+
 
 public enum Method {
     case delete
@@ -32,12 +36,6 @@ public enum Method {
     case trace
     case patch
     case other(method: String)
-}
-
-enum NetworkingError: String, LocalizedError {
-    case jsonError = "JSON error"
-    case other
-    var localizedDescription: String { return NSLocalizedString(self.rawValue, comment: "") }
 }
 
 extension Method {
@@ -124,34 +122,51 @@ class NetworkClient {
     static let shared = NetworkClient()
     
     func sendRequest( methodType: Method, url: String, parameter: [NSString: Any]? = nil, accessToken: String? = nil, completion: @escaping (Handler)) {
-    
+        
         let request = URLRequest.jsonRequest(url: url,parameter: parameter as [String : Any]?,methodType: methodType, accessToken:accessToken)
+        
+        guard let _ = request.url else {
+             completion(.networkFinishedWithError(NetworkError.invalidURL))
+            return
+        }
         
         let task = URLSession.session().dataTask(with: request as URLRequest,  completionHandler: { (data, response, error) in
             
             if let networkError = error {
                 if let nsError = networkError as NSError? {
-                    completion(.failure(nsError.code, networkError.localizedDescription))
+                    switch nsError.code {
+                    case -1009:
+                        completion(.networkFinishedWithError(NetworkError.offline))
+                        break
+                    default:
+                        print("nsError & message:",nsError.code,networkError.localizedDescription)
+                        completion(.networkFinishedWithError(NetworkError.undefined))
+                        break
+                    }
                 }
                 return
             }
-            
             guard let httpResponse = response as? HTTPURLResponse,
                 (200...499).contains(httpResponse.statusCode),let data = data else {
                     if let httpResponse = response as? HTTPURLResponse,httpResponse.statusCode >= 500 {
-                        print(httpResponse.statusCode)
-                         let error: NSError = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Sever Error"])
-                        completion(.failure(httpResponse.statusCode, error.localizedDescription))
+                        //print(httpResponse.statusCode)
+                        // let error: NSError = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Sever Error"])
+                        completion(.networkFinishedWithError(HTTPStatusCodes.init(rawValue: httpResponse.statusCode)!))
                     }
                     return
             }
-            completion(.success(data, httpResponse.statusCode))
+            print("Server Status:",HTTPStatusCodes.init(rawValue: httpResponse.statusCode)!,httpResponse.statusCode )
+            completion(.networkFinishedWithData(data,HTTPStatusCodes.init(rawValue: httpResponse.statusCode)! ))
         })
         task.resume()
     }
-    
-    
 }
 
+//extension HTTPURLResponse {
+//
+//      var status: HTTPStatusCode? {
+//          return HTTPStatusCode(rawValue: statusCode)
+//      }
+//}
 
 

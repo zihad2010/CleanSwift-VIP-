@@ -13,21 +13,39 @@
 import UIKit
 
 protocol LoginPresentationLogicDelegate {
-  func login(response: Login.Response)
-   
+    func login(response:Login.Response.LoginStatus)
+    func loaderShowOrHidden(flag:Bool)
+    func presentError(error: Error)
 }
 
 class LoginPresenter: LoginPresentationLogicDelegate {
-   
-  weak var viewControllerDelegate: LoginDisplayLogicDelegate?
-
-  
-  // MARK: 
-  
-    func login(response: Login.Response) {
+    
+    weak var viewControllerDelegate: LoginDisplayLogicDelegate?
+    
+    // MARK:
+    
+    func login(response: Login.Response.LoginStatus) {
         let viewModel = Login.ViewModel(success:response.success)
         viewControllerDelegate?.loginStatus(viewModel: viewModel)
     }
-       
-
+    
+    // MARK: - loader presentation
+    
+    func loaderShowOrHidden(flag: Bool) {
+        viewControllerDelegate?.loaderShowOrHidden(flag: flag)
+    }
+    
+    // MARK: - alert show
+    func presentError(error: Error) {
+        switch error {
+        case NetworkError.invalidURL:
+            self.viewControllerDelegate?.alertShowWith(errorViewModel: ErrorViewModel.init(title: "Errot", message: "Check Your Domain", buttonTitles: ["ok"]))
+            break
+        case NetworkError.offline:
+            self.viewControllerDelegate?.alertShowWith(errorViewModel: ErrorViewModel.init(title: "Errot", message: "Check Internet Connection", buttonTitles: ["ok"]))
+            break
+        default:
+            break
+        }
+    }
 }

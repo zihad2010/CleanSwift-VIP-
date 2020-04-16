@@ -20,7 +20,8 @@ protocol LoginDataStoreDelegate {
     //var name: String { get set }
 }
 
-class LoginInteractor: LoginBusinessLogicDelegate, LoginDataStoreDelegate {
+class LoginInteractor: LoginBusinessLogicDelegate, LoginDataStoreDelegate,LoginWarkerDelegate {
+    
     var presenterDelegate: LoginPresentationLogicDelegate?
     var worker: LoginWorker?
     //var name: String = ""
@@ -29,20 +30,39 @@ class LoginInteractor: LoginBusinessLogicDelegate, LoginDataStoreDelegate {
     
     func loginRequestWith(request: Login.Request) {
         worker = LoginWorker()
+        worker?.loginWarkerDelegate = self
         
-        worker?.loginWith(request: request){ [weak self] error in
-            
-            if let strongSelf = self{
-                
-                if  (error != nil){
-                    let response = Login.Response(success: false)
-                    strongSelf.presenterDelegate?.login(response: response)
-                }else{
-                    let response = Login.Response(success: true)
-                    strongSelf.presenterDelegate?.login(response: response)
-                }
-            }
+        
+        worker?.loginWith(request: request)
+        
+        //            if let strongSelf = self{
+        //                strongSelf.presenterDelegate?.loaderShowOrHidden(flag: false)
+        //                strongSelf.presenterDelegate?.login(response: Login.Response.LoginStatus(success: true))
+        //            }
+        //        }
+        
+    }
+    
+    // MARK: - LoginWarkerDelegate
+    
+    func loaderWillShow(flag: Bool) {
+        switch flag {
+        case true:
+            self.presenterDelegate?.loaderShowOrHidden(flag: flag)
+            break
+        default:
+            self.presenterDelegate?.loaderShowOrHidden(flag: flag)
+            break
         }
-        
+    }
+    
+    //MARK: presentError
+    func presentError(error: Error) {
+        self.presenterDelegate?.presentError(error: error)
+    }
+    
+    func loginResponse(response: Login.Response.SignIn) {
+        Token.shared.accessToken = response.access_token
+        self.presenterDelegate?.login(response: Login.Response.LoginStatus(success: true))
     }
 }

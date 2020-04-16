@@ -15,6 +15,9 @@
 		961135F02444E81A00C5A7B8 /* CleanSwift_VIP_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961135EF2444E81A00C5A7B8 /* CleanSwift_VIP_UITests.swift */; };
 		965BEA312447796F002CBD8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965BEA2F2447796F002CBD8A /* AppDelegate.swift */; };
 		965BEA322447796F002CBD8A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965BEA302447796F002CBD8A /* SceneDelegate.swift */; };
+		965BEA3624477C44002CBD8A /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965BEA3524477C44002CBD8A /* ErrorPresenter.swift */; };
+		965BEA3824477CE1002CBD8A /* ErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965BEA3724477CE1002CBD8A /* ErrorViewModel.swift */; };
+		965BEA3A24479CD3002CBD8A /* HTTPURLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965BEA3924479CD3002CBD8A /* HTTPURLResponse.swift */; };
 		965FE27924473C230040E62C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 965FE27824473C230040E62C /* .gitignore */; };
 		965FE289244777330040E62C /* AppURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965FE27F244777330040E62C /* AppURL.swift */; };
 		965FE28A244777330040E62C /* JSONDecoder+Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965FE281244777330040E62C /* JSONDecoder+Decode.swift */; };
@@ -67,6 +70,9 @@
 		961135F12444E81A00C5A7B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		965BEA2F2447796F002CBD8A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		965BEA302447796F002CBD8A /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		965BEA3524477C44002CBD8A /* ErrorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
+		965BEA3724477CE1002CBD8A /* ErrorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorViewModel.swift; sourceTree = "<group>"; };
+		965BEA3924479CD3002CBD8A /* HTTPURLResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPURLResponse.swift; sourceTree = "<group>"; };
 		965FE27824473C230040E62C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		965FE27F244777330040E62C /* AppURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppURL.swift; sourceTree = "<group>"; };
 		965FE281244777330040E62C /* JSONDecoder+Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Decode.swift"; sourceTree = "<group>"; };
@@ -233,6 +239,7 @@
 				965FE282244777330040E62C /* Networking.swift */,
 				965FE283244777330040E62C /* URLRequest+JSON.swift */,
 				965FE284244777330040E62C /* URLSession+SESSION.swift */,
+				965BEA3924479CD3002CBD8A /* HTTPURLResponse.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -240,6 +247,7 @@
 		965FE285244777330040E62C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				965BEA3724477CE1002CBD8A /* ErrorViewModel.swift */,
 				965FE286244777330040E62C /* Token.swift */,
 			);
 			path = Model;
@@ -248,6 +256,7 @@
 		965FE287244777330040E62C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				965BEA3524477C44002CBD8A /* ErrorPresenter.swift */,
 				965FE288244777330040E62C /* Loader.swift */,
 			);
 			path = View;
@@ -499,10 +508,13 @@
 				965BEA322447796F002CBD8A /* SceneDelegate.swift in Sources */,
 				965FE29B244777E00040E62C /* LoginPresenter.swift in Sources */,
 				965FE298244777E00040E62C /* LoginInteractor.swift in Sources */,
+				965BEA3624477C44002CBD8A /* ErrorPresenter.swift in Sources */,
+				965BEA3824477CE1002CBD8A /* ErrorViewModel.swift in Sources */,
 				965FE289244777330040E62C /* AppURL.swift in Sources */,
 				965FE299244777E00040E62C /* LoginModels.swift in Sources */,
 				965FE28C244777330040E62C /* URLRequest+JSON.swift in Sources */,
 				965FE29A244777E00040E62C /* LoginViewController.swift in Sources */,
+				965BEA3A24479CD3002CBD8A /* HTTPURLResponse.swift in Sources */,
 				965FE28F244777330040E62C /* Loader.swift in Sources */,
 				965FE29D244777E00040E62C /* LoginRouter.swift in Sources */,
 				965FE29C244777E00040E62C /* LoginWorker.swift in Sources */,
@@ -610,7 +622,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -664,7 +676,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
