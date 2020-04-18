@@ -17,14 +17,14 @@ protocol LoginBusinessLogicDelegate {
 }
 
 protocol LoginDataStoreDelegate {
-    //var name: String { get set }
+    var name: String { get }
 }
 
-class LoginInteractor: LoginBusinessLogicDelegate, LoginDataStoreDelegate,LoginWarkerDelegate {
+class LoginInteractor: LoginBusinessLogicDelegate,LoginDataStoreDelegate,LoginWarkerDelegate {
     
     var presenterDelegate: LoginPresentationLogicDelegate?
     var worker: LoginWorker?
-    //var name: String = ""
+    var name: String = "szdfs"
     
     // MARK: Do something
     

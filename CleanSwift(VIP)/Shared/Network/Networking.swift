@@ -24,97 +24,6 @@ enum NetworkError: Error{
     case undefined
 }
 
-
-public enum Method {
-    case delete
-    case get
-    case head
-    case post
-    case put
-    case connect
-    case options
-    case trace
-    case patch
-    case other(method: String)
-}
-
-extension Method {
-    public init(_ rawValue: String) {
-        let method = rawValue.uppercased()
-        switch method {
-        case "DELETE":
-            self = .delete
-        case "GET":
-            self = .get
-        case "HEAD":
-            self = .head
-        case "POST":
-            self = .post
-        case "PUT":
-            self = .put
-        case "CONNECT":
-            self = .connect
-        case "OPTIONS":
-            self = .options
-        case "TRACE":
-            self = .trace
-        case "PATCH":
-            self = .patch
-        default:
-            self = .other(method: method)
-        }
-    }
-}
-
-extension Method: CustomStringConvertible {
-    
-    public var description: String {
-        switch self {
-        case .delete:            return "DELETE"
-        case .get:               return "GET"
-        case .head:              return "HEAD"
-        case .post:              return "POST"
-        case .put:               return "PUT"
-        case .connect:           return "CONNECT"
-        case .options:           return "OPTIONS"
-        case .trace:             return "TRACE"
-        case .patch:             return "PATCH"
-        case .other(let method): return method.uppercased()
-        }
-    }
-}
-
-enum HTTPHeaderField: String {
-    case authentication  = "Authorization"
-    case contentType     = "Content-Type"
-    case acceptType      = "Accept"
-    case acceptEncoding  = "Accept-Encoding"
-    case acceptLangauge  = "Accept-Language"
-}
-
-enum ContentType: String {
-    case json            = "application/json"
-    case multipart       = "multipart/form-data"
-    case ENUS            = "en-us"
-}
-
-enum MultipartType: String {
-    case image = "Image"
-    case csv = "CSV"
-}
-
-enum MimeType: String {
-    case image = "image/png"
-    case csvText = "text/csv"
-}
-
-enum UploadType: String {
-    case avatar
-    case file
-}
-
-
-
 //MARK: - Network Client
 
 class NetworkClient {
@@ -130,7 +39,7 @@ class NetworkClient {
             return
         }
         
-        let task = URLSession.session().dataTask(with: request as URLRequest,  completionHandler: { (data, response, error) in
+        let task = URLSession.session().dataTask(with: request as URLRequest,  completionHandler: {[weak self] (data, response, error) in
             
             if let networkError = error {
                 if let nsError = networkError as NSError? {

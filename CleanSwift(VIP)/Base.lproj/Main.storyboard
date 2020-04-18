@@ -50,11 +50,28 @@
                     <connections>
                         <outlet property="passwardTextField" destination="ve5-13-5cc" id="B9w-fR-UqA"/>
                         <outlet property="userNameTextField" destination="nUR-vP-QA4" id="nZ1-xI-orw"/>
+                        <segue destination="spe-u0-9h2" kind="show" identifier="Somewhere" id="agW-BA-Shn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1071.2" y="118.29085457271366"/>
+        </scene>
+        <!--Project List View Controller-->
+        <scene sceneID="lUi-YJ-4BD">
+            <objects>
+                <viewController id="spe-u0-9h2" customClass="ProjectListViewController" customModule="CleanSwift_VIP_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Lei-Fu-NMa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="Uu3-J4-9Eq"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="eWi-ZN-jj1"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NVf-K8-edB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1786" y="118"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tIl-UD-bny">

@@ -88,15 +88,8 @@ class LoginViewController: UIViewController, LoginDisplayLogicDelegate,ErrorPres
     }
     
     func loginStatus(viewModel: Login.ViewModel) {
-        
-        switch viewModel.success {
-        case true:
-            //showLoaderIs(hidden: false)
-            break
-            
-        default:
-            print(viewModel.success)
-            break
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "Somewhere", sender: nil)
         }
     }
     

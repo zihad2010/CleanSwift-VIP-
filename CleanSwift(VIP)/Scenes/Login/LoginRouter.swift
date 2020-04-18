@@ -13,7 +13,7 @@
 import UIKit
 
 @objc protocol LoginRoutingLogicDelegate {
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
+  func routeToSomewhere(segue: UIStoryboardSegue?)
 }
 
 protocol LoginDataPassingDelegate {
@@ -26,32 +26,32 @@ class LoginRouter: NSObject, LoginRoutingLogicDelegate, LoginDataPassingDelegate
   
   // MARK: Routing
   
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
-  //{
-  //  if let segue = segue {
-  //    let destinationVC = segue.destination as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //  } else {
-  //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-  //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-  //  }
-  //}
+  func routeToSomewhere(segue: UIStoryboardSegue?)
+  {
+    if let segue = segue {
+      let destinationVC = segue.destination as! ProjectListViewController
+      var destinationDS = destinationVC.routerDelegate!.dataStore!
+      passDataToSomewhere(source: dataStore!, destination: &destinationDS)
+    } else {
+//      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//      let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! ProjectListViewController
+//      var destinationDS = destinationVC.routerDelegate!.dataStore!
+//    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
+//    navigateToSomewhere(source: viewController!, destination: destinationVC)
+    }
+  }
 
   // MARK: Navigation
   
-  //func navigateToSomewhere(source: LoginViewController, destination: SomewhereViewController)
-  //{
-  //  source.show(destination, sender: nil)
-  //}
+  func navigateToSomewhere(source: LoginViewController, destination: ProjectListViewController)
+  {
+    source.show(destination, sender: nil)
+  }
   
   // MARK: Passing data
   
-  //func passDataToSomewhere(source: LoginDataStore, destination: inout SomewhereDataStore)
-  //{
-  //  destination.name = source.name
-  //}
+  func passDataToSomewhere(source: LoginDataStoreDelegate, destination: inout ProjectListDataStoreDelegate)
+  {
+    destination.name = source.name
+  }
 }
