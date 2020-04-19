@@ -12,17 +12,18 @@
 
 import UIKit
 
+// MARK: View Loader
+
 protocol LoginPresentationLogicDelegate {
     func login(response:Login.Response.LoginStatus)
-    func loaderShowOrHidden(flag:Bool)
     func presentError(error: Error)
+    //MARK: Loader Delegate
+     func showOrHideLoader(response:Login.Response.Loader)
 }
 
 class LoginPresenter: LoginPresentationLogicDelegate {
-    
     weak var viewControllerDelegate: LoginDisplayLogicDelegate?
-    
-    // MARK:
+
     
     func login(response: Login.Response.LoginStatus) {
         let viewModel = Login.ViewModel(success:response.success)
@@ -30,9 +31,10 @@ class LoginPresenter: LoginPresentationLogicDelegate {
     }
     
     // MARK: - loader presentation
-    
-    func loaderShowOrHidden(flag: Bool) {
-        viewControllerDelegate?.loaderShowOrHidden(flag: flag)
+    func showOrHideLoader(response:Login.Response.Loader) {
+        print(response)
+        let viewModel = ViewModel.init(showOrHide: response.ShowOrHidden)
+        viewControllerDelegate?.loaderShowOrHidden(viewModel:viewModel)
     }
     
     // MARK: - alert show
@@ -48,4 +50,5 @@ class LoginPresenter: LoginPresentationLogicDelegate {
             break
         }
     }
+    
 }

@@ -13,36 +13,39 @@
 import UIKit
 
 enum Login {
-  // MARK: Use cases
+    // MARK: Use cases
     
     // MARK: Login request
     
     struct Request {
-          var userID: String?
-          var password: String?
+        var userID: String?
+        var password: String?
     }
     
-     // MARK: Login Response
+    // MARK: Login Response
     
     struct Response {
-       
-        struct LoginStatus {
-             var success : Bool
+        
+        struct Loader {
+            var ShowOrHidden: Bool
         }
-       
+        struct LoginStatus {
+            var success : Bool
+        }
+        
         struct SignIn: Codable {
             let access_token: String
             let token_type: String
             let expiredAt: Double
         }
-
+        
         struct SignInData: Codable {
             let time: String?
             let message: String?
             let uri: String?
             let errors: SignInErrors?
         }
-
+        
         struct SignInErrors: Codable {
             let password: String?
             let emailID: String?
@@ -53,6 +56,7 @@ enum Login {
     // MARK: Login ViewModel
     
     struct ViewModel {
+    
         var success: Bool
         
     }

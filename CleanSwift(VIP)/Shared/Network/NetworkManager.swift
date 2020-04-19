@@ -26,9 +26,9 @@ enum NetworkError: Error{
 
 //MARK: - Network Client
 
-class NetworkClient {
+class NetworkManager {
     
-    static let shared = NetworkClient()
+    static let shared = NetworkManager()
     
     func sendRequest( methodType: Method, url: String, parameter: [NSString: Any]? = nil, accessToken: String? = nil, completion: @escaping (Handler)) {
         
@@ -39,7 +39,7 @@ class NetworkClient {
             return
         }
         
-        let task = URLSession.session().dataTask(with: request as URLRequest,  completionHandler: {[weak self] (data, response, error) in
+        let task = URLSession.session().dataTask(with: request as URLRequest,  completionHandler: {(data, response, error) in
             
             if let networkError = error {
                 if let nsError = networkError as NSError? {

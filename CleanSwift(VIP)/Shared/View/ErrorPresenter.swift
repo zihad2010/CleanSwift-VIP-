@@ -28,7 +28,6 @@ extension ErrorPresenter where Self: UIViewController {
                 alertController.addAction(action)
             }
         }
-
         present(alertController, animated: true, completion: nil)
     }
 }

@@ -14,14 +14,13 @@ import UIKit
 
 protocol LoginDisplayLogicDelegate: class {
     func loginStatus(viewModel: Login.ViewModel)
-    func loaderShowOrHidden(flag:Bool)
+    func loaderShowOrHidden(viewModel:ViewModel)
     func alertShowWith(errorViewModel:ErrorViewModel)
 }
 
 
-class LoginViewController: UIViewController, LoginDisplayLogicDelegate,ErrorPresenter {
-    
-    let indecator = Loader.sharedInstance
+class LoginViewController: UIViewController, LoginDisplayLogicDelegate,ErrorPresenter,LoaderProtocol {
+
     var interactorDelegate: LoginBusinessLogicDelegate?
     var routerDelegate: (NSObjectProtocol & LoginRoutingLogicDelegate & LoginDataPassingDelegate)?
     
@@ -67,10 +66,8 @@ class LoginViewController: UIViewController, LoginDisplayLogicDelegate,ErrorPres
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         userNameTextField.text = "vccfrontend1@qaaw.ga"
         passwardTextField.text = "123456Abc@mobio"
-        
     }
     
     // MARK: LogonInfo
@@ -95,14 +92,8 @@ class LoginViewController: UIViewController, LoginDisplayLogicDelegate,ErrorPres
     
     // MARK: - Loader protocal implementation
     
-    func loaderShowOrHidden(flag: Bool) {
-        
-        switch flag {
-        case true:
-            indecator.showIndicator()
-        default:
-            indecator.hideIndicator()
-        }
+    func loaderShowOrHidden(viewModel:ViewModel) {
+        self.showLoder(viewModel: viewModel)
     }
     // MARK: - present error
     

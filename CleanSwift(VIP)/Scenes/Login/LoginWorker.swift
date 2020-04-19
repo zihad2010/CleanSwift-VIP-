@@ -27,7 +27,7 @@ class LoginWorker: NSObject {
         
         let parameter =  ["emailID": request.userID! as String,"password":request.password as Any,"online":"true"] as [String : Any]
         loginWarkerDelegate?.loaderWillShow(flag: true)
-        NetworkClient.shared.sendRequest(methodType: .post, url: Domain.baseUrl() + APIEndpoint.API_USER_SIGNIN, parameter: parameter as [NSString : Any]) { (result) in
+        NetworkManager.shared.sendRequest(methodType: .post, url: Domain.baseUrl() + APIEndpoint.API_USER_SIGNIN, parameter: parameter as [NSString : Any]) { (result) in
             
             self.loginWarkerDelegate?.loaderWillShow(flag: false)
             print(result)

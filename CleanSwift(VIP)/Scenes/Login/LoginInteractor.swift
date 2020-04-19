@@ -23,6 +23,7 @@ protocol LoginDataStoreDelegate {
 class LoginInteractor: LoginBusinessLogicDelegate,LoginDataStoreDelegate,LoginWarkerDelegate {
     
     var presenterDelegate: LoginPresentationLogicDelegate?
+  
     var worker: LoginWorker?
     var name: String = "szdfs"
     
@@ -31,16 +32,7 @@ class LoginInteractor: LoginBusinessLogicDelegate,LoginDataStoreDelegate,LoginWa
     func loginRequestWith(request: Login.Request) {
         worker = LoginWorker()
         worker?.loginWarkerDelegate = self
-        
-        
         worker?.loginWith(request: request)
-        
-        //            if let strongSelf = self{
-        //                strongSelf.presenterDelegate?.loaderShowOrHidden(flag: false)
-        //                strongSelf.presenterDelegate?.login(response: Login.Response.LoginStatus(success: true))
-        //            }
-        //        }
-        
     }
     
     // MARK: - LoginWarkerDelegate
@@ -48,10 +40,10 @@ class LoginInteractor: LoginBusinessLogicDelegate,LoginDataStoreDelegate,LoginWa
     func loaderWillShow(flag: Bool) {
         switch flag {
         case true:
-            self.presenterDelegate?.loaderShowOrHidden(flag: flag)
+            self.presenterDelegate?.showOrHideLoader(response: Login.Response.Loader.init(ShowOrHidden: true))
             break
         default:
-            self.presenterDelegate?.loaderShowOrHidden(flag: flag)
+             self.presenterDelegate?.showOrHideLoader(response: Login.Response.Loader.init(ShowOrHidden: false))
             break
         }
     }
